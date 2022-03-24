@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("events")
 public class EventController {
 
+
+
     @GetMapping
     public String displayAllEvents(Model model) {
         model.addAttribute("title", "All Events");
@@ -49,6 +51,25 @@ public class EventController {
         }
 
         return "redirect:";
+    }
+
+    @GetMapping("edit/${event}")
+    public String displayEditForm(Model model, @PathVariable int eventId) {
+        // controller code will go here
+        Event eventEdit= EventData.getById(eventId);
+        model.addAttribute("event", eventEdit);
+        return "events/edit";
+    }
+    @PostMapping("edit")
+    public String processEditForm(int eventId, String name, String description) {
+        // controller code will go here
+
+
+        Event eventedit = EventData.getById(eventId);
+        eventedit.setName(name);
+        eventedit.setDescription(description);
+        return"redirect:";
+
     }
 
 }
